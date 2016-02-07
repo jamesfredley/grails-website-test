@@ -1,3 +1,5 @@
+package website
+
 class UrlMappings {
 
     static mappings = {
