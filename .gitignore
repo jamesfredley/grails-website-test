@@ -2,6 +2,7 @@ Thumbs.db
 .DS_Store
 .gradle
 build/
+classes/
 .idea
 *.iml
 *.ipr
@@ -9,4 +10,3 @@ build/
 .project
 .settings
 .classpath
-.asscache
