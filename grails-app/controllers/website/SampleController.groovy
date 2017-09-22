@@ -1,41 +1,39 @@
 package website
 
+import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
 class SampleController {
+
+    SampleService sampleService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Sample.list(params), model:[sampleCount: Sample.count()]
+        respond sampleService.list(params), model:[sampleCount: sampleService.count()]
     }
 
-    def show(Sample sample) {
-        respond sample
+    def show(Long id) {
+        respond sampleService.get(id)
     }
 
     def create() {
         respond new Sample(params)
     }
 
-    @Transactional
     def save(Sample sample) {
         if (sample == null) {
-            transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
-        if (sample.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+        try {
+            sampleService.save(sample)
+        } catch (ValidationException e) {
             respond sample.errors, view:'create'
             return
         }
-
-        sample.save flush:true
 
         request.withFormat {
             form multipartForm {
@@ -46,25 +44,22 @@ class SampleController {
         }
     }
 
-    def edit(Sample sample) {
-        respond sample
+    def edit(Long id) {
+        respond sampleService.get(id)
     }
 
-    @Transactional
     def update(Sample sample) {
         if (sample == null) {
-            transactionStatus.setRollbackOnly()
             notFound()
             return
         }
 
-        if (sample.hasErrors()) {
-            transactionStatus.setRollbackOnly()
+        try {
+            sampleService.save(sample)
+        } catch (ValidationException e) {
             respond sample.errors, view:'edit'
             return
         }
-
-        sample.save flush:true
 
         request.withFormat {
             form multipartForm {
@@ -75,20 +70,17 @@ class SampleController {
         }
     }
 
-    @Transactional
-    def delete(Sample sample) {
-
-        if (sample == null) {
-            transactionStatus.setRollbackOnly()
+    def delete(Long id) {
+        if (id == null) {
             notFound()
             return
         }
 
-        sample.delete flush:true
+        sampleService.delete(id)
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'sample.label', default: 'Sample'), sample.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'sample.label', default: 'Sample'), id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
