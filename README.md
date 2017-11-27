@@ -4,6 +4,7 @@ grails create-app website
 cd website
 grails
 create-domain-class Sample
+# add 3 properties to Sample.groovy     String prop1, Integer prop2, Date prop3
 generate-controller website.Sample 
 generate-views website.Sample 
 install-templates 
