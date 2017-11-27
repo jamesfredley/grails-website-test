@@ -1,12 +1,11 @@
 package website
 
-import grails.test.mixin.*
+import grails.testing.gorm.DomainUnitTest
+import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
 import spock.lang.*
 
-@TestFor(SampleController)
-@Mock(Sample)
-class SampleControllerSpec extends Specification {
+class SampleControllerSpec extends Specification implements ControllerUnitTest<SampleController>, DomainUnitTest<Sample> {
 
     def populateValidParams(params) {
         assert params != null
