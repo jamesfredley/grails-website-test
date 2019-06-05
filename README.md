@@ -11,5 +11,6 @@ install-templates
 
 git tag <version>
 git push origin --tags
+```
 
 https://github.com/codeconsole/website/compare/3.3.9..4.0.0.RC2
