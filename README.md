@@ -1,5 +1,5 @@
 Demonstrates the differences between 2 websites created with
-
+```
 grails create-app website
 cd website
 grails
@@ -11,5 +11,6 @@ install-templates
 
 git tag <version>
 git push origin --tags
+```
 
-https://github.com/codeconsole/website/compare/3.3.0...3.3.1
+https://github.com/codeconsole/website/compare/3.3.9..4.0.0.RC2
