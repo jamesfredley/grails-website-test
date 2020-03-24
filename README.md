@@ -1,13 +1,18 @@
 Demonstrates the differences between 2 websites created with
 ```
+mv website website-old
 grails create-app website
 cd website
+mv ../website-old/.git .
+mv ../website-old/README.md .
 grails create-domain-class Sample
 # add 3 properties to Sample.groovy     String prop1, Integer prop2, Date prop3
 grails generate-controller website.Sample 
 grails generate-views website.Sample 
 grails install-templates 
 
+
+git commit -a -m <version>
 git tag <version>
 git push origin --tags
 ```
