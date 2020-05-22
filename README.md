@@ -7,6 +7,7 @@ mv ../website-old/.git .
 mv ../website-old/README.md .
 grails create-domain-class Sample
 # add 3 properties to Sample.groovy     String prop1, Integer prop2, Date prop3
+mv ../website-old/grails-app/domain/website/Sample.groovy grails-app/domain/website 
 grails generate-controller website.Sample 
 grails generate-views website.Sample 
 grails install-templates 
