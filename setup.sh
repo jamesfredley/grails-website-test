@@ -8,4 +8,5 @@ grails create-domain-class Sample
 git checkout grails-app/domain/website/Sample.groovy
 grails generate-controller website.Sample 
 grails generate-views website.Sample 
-grails install-templates 
+grails install-templates
+git checkout setup.sh 
