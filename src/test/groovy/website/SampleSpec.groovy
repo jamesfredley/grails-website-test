@@ -5,14 +5,12 @@ import spock.lang.Specification
 
 class SampleSpec extends Specification implements DomainUnitTest<Sample> {
 
-    def setup() {
-    }
+     void "test domain constraints"() {
+        when:
+        Sample domain = new Sample()
+        //TODO: Set domain props here
 
-    def cleanup() {
-    }
-
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
+        then:
+        domain.validate()
+     }
 }
