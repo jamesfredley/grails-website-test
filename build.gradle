@@ -64,6 +64,7 @@ dependencies {
     testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:4.19.1")
     testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver:4.19.1")
     testImplementation("io.micronaut:micronaut-http-client")
+    assets "com.bertramlabs.plugins:sass-dart-asset-pipeline:4.4.0"
 
 }
 

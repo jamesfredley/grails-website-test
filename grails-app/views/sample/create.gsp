@@ -9,13 +9,17 @@
     <div id="content" role="main">
         <div class="container">
             <section class="row">
-                <a href="#create-sample" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-                <div class="nav" role="navigation">
-                    <ul>
-                        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                        <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+                <a href="#create-sample" class="visually-hidden-focusable" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <ul class="navbar-nav container-fluid">
+                        <li class="nav-item"><a class="nav-link btn" aria-label="Home" href="${createLink(uri: '/')}">
+                            <i class="bi-house"></i> <g:message code="default.home.label"/></a>
+                        </li>
+                        <li class="nav-item me-auto"><g:link class="nav-link btn" aria-label="List" action="index">
+                            <i class="bi-database"></i> <g:message code="default.list.label" args="[entityName]" /></g:link>
+                        </li>
                     </ul>
-                </div>
+                </nav>
             </section>
             <section class="row">
                 <div id="create-sample" class="col-12 content scaffold-create" role="main">
@@ -34,8 +38,10 @@
                         <fieldset class="form">
                             <f:all bean="sample"/>
                         </fieldset>
-                        <fieldset class="buttons">
-                            <g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+                        <fieldset class="bg-body-tertiary">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <i class="bi-floppy"></i> ${message(code: 'default.button.create.label', default: 'Create')}
+                            </button>
                         </fieldset>
                     </g:form>
                 </div>

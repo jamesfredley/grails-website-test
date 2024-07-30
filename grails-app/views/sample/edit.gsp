@@ -9,14 +9,20 @@
     <div id="content" role="main">
         <div class="container">
             <section class="row">
-                <a href="#edit-sample" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-                <div class="nav" role="navigation">
-                    <ul>
-                        <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                        <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-                        <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+                <a href="#edit-sample" class="visually-hidden-focusable" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <ul class="navbar-nav container-fluid">
+                        <li class="nav-item"><a class="nav-link btn" aria-label="Home" href="${createLink(uri: '/')}">
+                            <i class="bi-house"></i> <g:message code="default.home.label"/></a>
+                        </li>
+                        <li class="nav-item"><g:link class="nav-link btn" aria-label="List" action="index">
+                            <i class="bi-database"></i> <g:message code="default.list.label" args="[entityName]" /></g:link>
+                        </li>
+                        <li class="nav-item me-auto">
+                            <g:link class="nav-link btn" aria-label="List" action="create"><i class="bi-database-add"></i> <g:message code="default.new.label" args="[entityName]" /></g:link>
+                        </li>
                     </ul>
-                </div>
+                </nav>
             </section>
             <section class="row">
                 <div id="edit-sample" class="col-12 content scaffold-edit" role="main">
@@ -33,11 +39,13 @@
                     </g:hasErrors>
                     <g:form resource="${this.sample}" method="PUT">
                         <g:hiddenField name="version" value="${this.sample?.version}" />
-                        <fieldset class="form">
+%{--                        <fieldset class="form">--}%
                             <f:all bean="sample"/>
-                        </fieldset>
-                        <fieldset class="buttons">
-                            <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
+%{--                        </fieldset>--}%
+                        <fieldset class="bg-body-tertiary">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <i class="bi-floppy"></i> ${message(code: 'default.button.update.label', default: 'Update')}
+                            </button>
                         </fieldset>
                     </g:form>
                 </div>
