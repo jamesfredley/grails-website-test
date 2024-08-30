@@ -1,5 +1,5 @@
 <table class="table table-striped table-hover">
-    <thead class="">
+    <thead>
     <tr>
         <g:each in="${domainProperties}" var="p" status="i">
             <g:sortableColumn class="" property="${p.property}" title="${p.label}" />

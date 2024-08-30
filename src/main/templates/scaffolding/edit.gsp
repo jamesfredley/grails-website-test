@@ -9,14 +9,20 @@
     <div id="content" role="main">
         <div class="container">
             <section class="row">
-                <a href="#edit-${propertyName}" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-                <div class="nav" role="navigation">
-                    <ul>
-                        <li><a class="home" href="\${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-                        <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-                        <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+                <a href="#edit-${propertyName}" class="visually-hidden-focusable" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <ul class="navbar-nav container-fluid">
+                        <li class="nav-item"><a class="nav-link btn" aria-label="Home" href="\${createLink(uri: '/')}">
+                            <i class="bi-house"></i> <g:message code="default.home.label"/></a>
+                        </li>
+                        <li class="nav-item"><g:link class="nav-link btn" aria-label="List" action="index">
+                            <i class="bi-database"></i> <g:message code="default.list.label" args="[entityName]" /></g:link>
+                        </li>
+                        <li class="nav-item me-lg-auto">
+                            <g:link class="nav-link btn" aria-label="List" action="create"><i class="bi-database-add"></i> <g:message code="default.new.label" args="[entityName]" /></g:link>
+                        </li>
                     </ul>
-                </div>
+                </nav>
             </section>
             <section class="row">
                 <div id="edit-${propertyName}" class="col-12 content scaffold-edit" role="main">
@@ -36,8 +42,10 @@
                         <fieldset class="form">
                             <f:all bean="${propertyName}"/>
                         </fieldset>
-                        <fieldset class="buttons">
-                            <input class="save" type="submit" value="\${message(code: 'default.button.update.label', default: 'Update')}" />
+                        <fieldset class="bg-body-tertiary">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <i class="bi-floppy"></i> \${message(code: 'default.button.update.label', default: 'Update')}
+                            </button>
                         </fieldset>
                     </g:form>
                 </div>

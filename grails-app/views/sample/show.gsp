@@ -18,7 +18,7 @@
                         <li class="nav-item"><g:link class="nav-link btn" aria-label="List" action="index">
                             <i class="bi-database"></i> <g:message code="default.list.label" args="[entityName]" /></g:link>
                         </li>
-                        <li class="nav-item me-auto">
+                        <li class="nav-item me-lg-auto">
                             <g:link class="nav-link btn" aria-label="List" action="create"><i class="bi-database-add"></i> <g:message code="default.new.label" args="[entityName]" /></g:link>
                         </li>
                     </ul>
@@ -28,7 +28,7 @@
                 <div id="show-sample" class="col-12 content scaffold-show" role="main">
                     <h1><g:message code="default.show.label" args="[entityName]" /></h1>
                     <g:if test="${flash.message}">
-                    <div class="message" role="status">${flash.message}</div>
+                    <div class="alert alert-primary" role="alert"><i class="bi-info-circle"></i> ${flash.message}</div>
                     </g:if>
                     <f:display bean="sample" />
                     <g:form resource="${this.sample}" method="DELETE">
