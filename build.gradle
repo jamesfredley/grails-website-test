@@ -1,3 +1,16 @@
+buildscript {
+    configurations.configureEach {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            // This is a workaround for dependencies exposing a different version of Groovy
+            // than the one used by Gradle. This causes issues with the Groovy compiler.
+            if (details.requested.group == 'org.apache.groovy' || details.requested.group == 'org.codehaus.groovy') {
+                details.useTarget(group: "org.apache.groovy", name: details.requested.name, version: "$groovyVersion")
+                details.because "Use Groovy 3.0.x library shipped with Gradle"
+            }
+        }
+    }
+}
+
 plugins {
     id "groovy"
     id "org.grails.grails-web"
@@ -13,6 +26,7 @@ plugins {
 group = "website"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "https://repo.grails.org/libs-snapshots-local/" }
     maven { url "https://repo.grails.org/grails/core/" }
@@ -40,7 +54,7 @@ dependencies {
     implementation("org.grails:grails-plugin-services")
 //    implementation("org.grails:grails-plugin-url-mappings")
     implementation("org.grails:grails-web-boot")
-    implementation("org.grails.plugins:gsp")
+    implementation("org.grails.plugins:gsp:7.0.0-SNAPSHOT")
 //    implementation("org.grails.plugins:hibernate5")
     implementation("org.grails.plugins:scaffolding")
     implementation("org.springframework.boot:spring-boot-autoconfigure")
@@ -50,10 +64,22 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     console("org.grails:grails-console")
-    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:4.5.1")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.2-SNAPSHOT")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.fusesource.jansi:jansi:1.18")
+
+    testImplementation("io.micronaut:micronaut-inject-groovy")
+    testImplementation("org.grails:grails-gorm-testing-support")
+    testImplementation("org.grails:grails-web-testing-support")
+    testImplementation("org.grails.plugins:geb")
+    testImplementation("org.seleniumhq.selenium:selenium-api:4.19.1")
+    testImplementation("org.seleniumhq.selenium:selenium-remote-driver:4.19.1")
+    testImplementation("org.seleniumhq.selenium:selenium-support:4.19.1")
+    testImplementation("org.spockframework:spock-core")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-chrome-driver:4.19.1")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:4.19.1")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver:4.19.1")
 }
 
 application {
@@ -61,7 +87,7 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("17")
 }
 
 tasks.withType(Test) {
@@ -70,4 +96,23 @@ tasks.withType(Test) {
     systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
     systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
     systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
+}
+
+allprojects {
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            substitute(module("org.codehaus.groovy:groovy-bom:3.0.8")).using(module("org.apache.groovy:groovy-bom:$groovyVersion"))
+        }
+
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy')) {
+                details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: "$groovyVersion")
+                details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
+            }
+
+            if (details.requested.group == "io.micronaut" && details.requested.name == "micronaut-inject-groovy") {
+                details.useVersion("4.6.1")
+            }
+        }
+    }
 }
