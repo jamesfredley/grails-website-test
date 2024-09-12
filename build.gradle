@@ -14,7 +14,6 @@ group = "website"
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.grails.org/libs-snapshots-local/" }
     maven { url "https://repo.grails.org/grails/core/" }
 }
 
@@ -26,8 +25,25 @@ configurations {
             }
         }
         exclude group: 'io.micronaut', module:'micronaut-inject-groovy'
+
+        resolutionStrategy.dependencySubstitution {
+            substitute module("org.codehaus.groovy:groovy-all") using module("org.apache.groovy:groovy:$groovyVersion")
+        }
+
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
+                details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: "$groovyVersion")
+                details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
+            }
+
+            if (details.requested.group == "io.micronaut" && details.requested.name == "micronaut-inject-groovy") {
+                details.useVersion("4.6.1")
+            }
+        }
+
     }
 }
+
 
 dependencies {
     implementation 'org.apache.groovy:groovy-all:4.0.22'
@@ -38,10 +54,10 @@ dependencies {
     implementation("org.grails:grails-plugin-interceptors")
     implementation("org.grails:grails-plugin-rest")
     implementation("org.grails:grails-plugin-services")
-//    implementation("org.grails:grails-plugin-url-mappings")
+    implementation("org.grails:grails-plugin-url-mappings")
     implementation("org.grails:grails-web-boot")
     implementation("org.grails.plugins:gsp")
-//    implementation("org.grails.plugins:hibernate5")
+    implementation("org.grails.plugins:hibernate5")
     implementation("org.grails.plugins:scaffolding")
     implementation("org.springframework.boot:spring-boot-autoconfigure")
     implementation("org.springframework.boot:spring-boot-starter")
@@ -50,7 +66,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     console("org.grails:grails-console")
-    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:4.5.1")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.fusesource.jansi:jansi:1.18")
