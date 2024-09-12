@@ -2,7 +2,6 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
-    maven { url "https://repo.grails.org/libs-snapshots-local/" }
 }
 dependencies {
     implementation("com.bertramlabs.plugins:asset-pipeline-gradle:5.0.2-SNAPSHOT")
