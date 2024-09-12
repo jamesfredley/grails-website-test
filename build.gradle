@@ -3,9 +3,12 @@ buildscript {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             // This is a workaround for dependencies exposing a different version of Groovy
             // than the one used by Gradle. This causes issues with the Groovy compiler.
-            if (details.requested.group == 'org.apache.groovy' || details.requested.group == 'org.codehaus.groovy') {
-                details.useTarget(group: "org.apache.groovy", name: details.requested.name, version: "$groovyVersion")
-                details.because "Use Groovy 3.0.x library shipped with Gradle"
+            if (details.requested.group == 'org.apache.groovy' || details.requested.group == 'org.codehaus.groovy'  ) {
+                if(details.requested.name != "groovy-bom"){
+                    details.useTarget(group: "org.apache.groovy", name: details.requested.name, version: "$groovyVersion")
+                    details.because "Use Groovy 3.0.x library shipped with Gradle"
+                }
+
             }
         }
     }
@@ -80,7 +83,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     console("org.grails:grails-console")
-    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.2-SNAPSHOT")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.fusesource.jansi:jansi:1.18")
