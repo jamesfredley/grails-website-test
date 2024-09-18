@@ -44,9 +44,9 @@ configurations {
         }
         exclude group: 'io.micronaut', module:'micronaut-inject-groovy'
 
-        resolutionStrategy.dependencySubstitution {
-            substitute module("org.codehaus.groovy:groovy-all") using module("org.apache.groovy:groovy:$groovyVersion")
-        }
+//        resolutionStrategy.dependencySubstitution {
+//            substitute module("org.codehaus.groovy:groovy-all") using module("org.apache.groovy:groovy:$groovyVersion")
+//        }
 
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
@@ -64,7 +64,7 @@ configurations {
 
 
 dependencies {
-    implementation 'org.apache.groovy:groovy-all:4.0.22'
+//    implementation 'org.apache.groovy:groovy-all:4.0.22'
     implementation("org.grails:grails-core")
     implementation("org.grails:grails-logging")
     implementation("org.grails:grails-plugin-databinding")
