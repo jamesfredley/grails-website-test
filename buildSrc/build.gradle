@@ -7,16 +7,4 @@ dependencies {
     implementation("com.bertramlabs.plugins:asset-pipeline-gradle:5.0.1")
     implementation("org.grails:grails-gradle-plugin:7.0.0-SNAPSHOT")
     implementation("org.grails.plugins:hibernate5:9.0.0-SNAPSHOT")
-//    implementation 'org.apache.groovy:groovy-all:4.0.22'
 }
-
-configurations.configureEach {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            // This is a workaround for dependencies exposing a different version of Groovy
-            // than the one used by Gradle. This causes issues with the Groovy compiler.
-            if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
-                details.useTarget(group: "org.apache.groovy", name: details.requested.name, version: '4.0.22')
-                details.because "Use Groovy 4.0.x library shipped with Gradle"
-            }
-        }
-    }
