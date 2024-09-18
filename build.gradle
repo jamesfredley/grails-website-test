@@ -86,6 +86,7 @@ dependencies {
     implementation("org.sitemesh:grails-plugin-sitemesh3:7.0.0-SNAPSHOT")
     console("org.grails:grails-console")
     runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.1")
+    runtimeOnly("org.graalvm.sdk:graal-sdk:22.0.0.2")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.fusesource.jansi:jansi:1.18")
