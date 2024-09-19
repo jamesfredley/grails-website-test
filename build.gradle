@@ -52,6 +52,7 @@ allprojects {
 
 
 dependencies {
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.grails:grails-core")
     implementation("org.grails:grails-logging")
     implementation("org.grails:grails-plugin-databinding")
