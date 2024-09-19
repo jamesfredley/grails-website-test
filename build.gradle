@@ -21,8 +21,8 @@ repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
-configurations {
-    all {
+allprojects {
+    configurations.configureEach {
         resolutionStrategy.eachDependency { DependencyResolveDetails details->
             if (details.requested.group == 'org.seleniumhq.selenium') {
                 details.useVersion('4.19.1')
@@ -30,7 +30,24 @@ configurations {
         }
         exclude group: 'io.micronaut', module:'micronaut-inject-groovy'
 
-    }
+
+            resolutionStrategy.dependencySubstitution {
+                substitute(module("org.codehaus.groovy:groovy-bom:3.0.8")).using(module("org.apache.groovy:groovy-bom:$groovyVersion"))
+            }
+
+            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
+                    details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: "$groovyVersion")
+                    details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
+                }
+
+                if (details.requested.group == "io.micronaut" && details.requested.name == "micronaut-inject-groovy") {
+                    details.useVersion("4.6.1")
+                }
+            }
+        }
+
+
 }
 
 
@@ -67,6 +84,7 @@ dependencies {
     testImplementation("org.grails:grails-gorm-testing-support")
     testImplementation("org.grails:grails-web-testing-support")
     testImplementation("org.grails.plugins:geb")
+    implementation 'org.gebish:geb-spock:7.0'
     testImplementation("org.seleniumhq.selenium:selenium-api:4.19.1")
     testImplementation("org.seleniumhq.selenium:selenium-remote-driver:4.19.1")
     testImplementation("org.seleniumhq.selenium:selenium-support:4.19.1")
@@ -90,25 +108,6 @@ tasks.withType(Test) {
     systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
     systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
     systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
-}
-
-allprojects {
-    configurations.all {
-        resolutionStrategy.dependencySubstitution {
-            substitute(module("org.codehaus.groovy:groovy-bom:3.0.8")).using(module("org.apache.groovy:groovy-bom:$groovyVersion"))
-        }
-
-//        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-//            if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy')) {
-//                details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: "$groovyVersion")
-//                details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
-//            }
-//
-//            if (details.requested.group == "io.micronaut" && details.requested.name == "micronaut-inject-groovy") {
-//                details.useVersion("4.6.1")
-//            }
-//        }
-    }
 }
 
 distTar {
