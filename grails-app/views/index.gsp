@@ -19,8 +19,14 @@
             </li>
             <li class="dropdown-item"><a href="#">Groovy version: ${GroovySystem.getVersion()}</a></li>
             <li class="dropdown-item"><a href="#">JVM version: ${System.getProperty('java.version')}</a></li>
+            <li class="dropdown-item"><a href="#">App profile: ${grails.util.Holders.grailsApplication.config.getProperty("grails.profile")}</a></li>
+            <li class="dropdown-item"><a href="#">SiteMesh version: ${org.sitemesh.config.ConfigurableSiteMeshFilter.class.getPackage().getSpecificationVersion()}</a></li>
+            <li class="dropdown-item"><a href="#">Spring Framework: ${org.springframework.core.SpringVersion.getVersion()}</a></li>
+            <li class="dropdown-item"><a href="#">Spring Boot: ${org.springframework.boot.SpringBootVersion.getVersion()}</a></li>
             <li role="separator" class="dropdown-divider"></li>
             <li class="dropdown-item"><a href="#">Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</a></li>
+
+
         </ul>
     </li>
     <li class="dropdown">

@@ -53,6 +53,8 @@ allprojects {
 
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation 'org.springframework:spring-core:6.1.13'
+    platform 'org.springframework:spring-bom:6.1.13'
     implementation("org.grails:grails-core")
     implementation("org.grails:grails-logging")
     implementation("org.grails:grails-plugin-databinding")
@@ -74,6 +76,7 @@ dependencies {
     implementation("org.sitemesh:grails-plugin-sitemesh3:7.0.0-SNAPSHOT")
     implementation("io.github.gpc:fields:6.0.0-SNAPSHOT")
     implementation("org.grails:scaffolding-core:2.1.0")
+
     console("org.grails:grails-console")
     runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.1")
     runtimeOnly("org.graalvm.sdk:graal-sdk:22.0.0.2")
@@ -101,7 +104,7 @@ application {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(23)
     }
 }
 
