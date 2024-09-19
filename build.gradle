@@ -13,7 +13,9 @@ plugins {
 group = "website"
 
 repositories {
-    mavenLocal()
+    flatDir {
+        dirs("libs/fields/6.0.0-SNAPSHOT")
+    }
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
@@ -52,6 +54,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.sitemesh:grails-plugin-sitemesh3:7.0.0-SNAPSHOT")
+    implementation("io.github.gpc:fields:6.0.0-SNAPSHOT")
+    implementation("org.grails:scaffolding-core:2.1.0")
     console("org.grails:grails-console")
     runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.1")
     runtimeOnly("org.graalvm.sdk:graal-sdk:22.0.0.2")
