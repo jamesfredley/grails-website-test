@@ -115,11 +115,3 @@ tasks.withType(Test) {
     systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
     systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
 }
-
-distTar {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-distZip {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
