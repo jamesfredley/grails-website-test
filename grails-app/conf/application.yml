@@ -5,6 +5,8 @@ info:
     grailsVersion: '@info.app.grailsVersion@'
 grails:
   profile: web
+  codegen:
+    defaultPackage: website
   controllers:
     defaultScope: singleton
   views:
