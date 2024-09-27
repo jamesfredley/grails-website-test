@@ -20,31 +20,12 @@ repositories {
 
 allprojects {
     configurations.configureEach {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details->
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.group == 'org.seleniumhq.selenium') {
                 details.useVersion('4.19.1')
             }
         }
-        exclude group: 'io.micronaut', module:'micronaut-inject-groovy'
-
-
-            resolutionStrategy.dependencySubstitution {
-                substitute(module("org.codehaus.groovy:groovy-bom:3.0.8")).using(module("org.apache.groovy:groovy-bom:$groovyVersion"))
-            }
-
-            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
-                    details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: "$groovyVersion")
-                    details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
-                }
-
-                if (details.requested.group == "io.micronaut" && details.requested.name == "micronaut-inject-groovy") {
-                    details.useVersion("4.6.1")
-                }
-            }
-        }
-
-
+    }
 }
 
 
@@ -78,7 +59,6 @@ dependencies {
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
     runtimeOnly("org.fusesource.jansi:jansi:1.18")
     profile ("org.grails.profiles:web")
-    testImplementation("io.micronaut:micronaut-inject-groovy")
     testImplementation("org.grails:grails-gorm-testing-support")
     testImplementation("org.grails:grails-web-testing-support")
     testImplementation("org.grails.plugins:geb")
