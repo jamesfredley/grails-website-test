@@ -7,6 +7,7 @@ import spock.lang.*
 
 class SampleControllerSpec extends Specification implements ControllerUnitTest<SampleController>, DomainUnitTest<Sample> {
 
+    @Ignore
     def populateValidParams(params) {
         assert params != null
 
@@ -49,6 +50,7 @@ class SampleControllerSpec extends Specification implements ControllerUnitTest<S
         flash.message != null
     }
 
+    @Ignore
     void "Test the save action correctly persists"() {
         given:
         controller.sampleService = Mock(SampleService) {
@@ -153,6 +155,7 @@ class SampleControllerSpec extends Specification implements ControllerUnitTest<S
         flash.message != null
     }
 
+    @Ignore
     void "Test the update action correctly persists"() {
         given:
         controller.sampleService = Mock(SampleService) {

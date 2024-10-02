@@ -89,3 +89,9 @@ tasks.withType(Test) {
     systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
     systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
 }
+
+webdriverBinaries {
+    chromedriver "126.0.6478.126"
+    geckodriver "0.32.2"
+    edgedriver "110.0.1587.57"
+}
