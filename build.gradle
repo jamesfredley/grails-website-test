@@ -1,14 +1,31 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        maven { url "https://repo.grails.org/grails/core/" }
+        maven {
+            url = 'https://repo.gradle.org/gradle/libs-releases'
+            description = 'Needed for Gradle Tooling API'
+        }
+    }
+    dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
+        classpath "org.grails.plugins:hibernate5:$gormVersion"
+        classpath "org.grails.plugins:database-migration:$databaseMigrationVersion"
+    }
+}
+
 plugins {
     id "groovy"
-    id "org.grails.grails-web"
-    id "org.grails.grails-gsp"
-    id "com.github.erdi.webdriver-binaries"
+    id "com.github.erdi.webdriver-binaries" version "$webdriverBinariesPluginVersion"
     id "war"
     id "idea"
-    id "com.bertramlabs.asset-pipeline"
+    id "com.bertramlabs.asset-pipeline" version "$assetPipelineVersion"
     id "application"
     id "eclipse"
 }
+apply plugin:"org.grails.grails-web"
+apply plugin:"org.grails.grails-gsp"
 
 group = "website"
 
@@ -22,7 +39,7 @@ allprojects {
     configurations.configureEach {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.group == 'org.seleniumhq.selenium') {
-                details.useVersion('4.19.1')
+                details.useVersion(seleniumVersion)
             }
         }
     }
@@ -40,7 +57,7 @@ dependencies {
     implementation("org.grails:grails-plugin-services")
     implementation("org.grails:grails-plugin-url-mappings")
     implementation("org.grails:grails-web-boot")
-    implementation("org.grails.plugins:gsp:7.0.0-SNAPSHOT")
+    implementation("org.grails.plugins:gsp")
     implementation("org.grails.plugins:hibernate5")
     implementation("org.grails.plugins:scaffolding")
     implementation("org.springframework.boot:spring-boot-autoconfigure")
@@ -49,27 +66,26 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.sitemesh:grails-plugin-sitemesh3:7.0.0-SNAPSHOT")
-    implementation("org.grails.plugins:database-migration:6.0.0-SNAPSHOT")
+    implementation("org.sitemesh:grails-plugin-sitemesh3:$grailsSitemeshPluginVersion")
+    implementation("org.grails.plugins:database-migration:$databaseMigrationVersion")
 
     console("org.grails:grails-console")
-    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:5.0.1")
-    runtimeOnly("org.graalvm.sdk:graal-sdk:22.0.0.2")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:$assetPipelineVersion")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
-    runtimeOnly("org.fusesource.jansi:jansi:1.18")
+    runtimeOnly("org.fusesource.jansi:jansi:$jansiVersion")
     profile ("org.grails.profiles:web")
     testImplementation("org.grails:grails-gorm-testing-support")
     testImplementation("org.grails:grails-web-testing-support")
     testImplementation("org.grails.plugins:geb")
-    implementation 'org.gebish:geb-spock:7.0'
-    testImplementation("org.seleniumhq.selenium:selenium-api:4.19.1")
-    testImplementation("org.seleniumhq.selenium:selenium-remote-driver:4.19.1")
-    testImplementation("org.seleniumhq.selenium:selenium-support:4.19.1")
+    implementation "org.gebish:geb-spock:$gebVersion"
+    testImplementation("org.seleniumhq.selenium:selenium-api:$seleniumVersion")
+    testImplementation("org.seleniumhq.selenium:selenium-remote-driver:$seleniumVersion")
+    testImplementation("org.seleniumhq.selenium:selenium-support:$seleniumVersion")
     testImplementation("org.spockframework:spock-core")
-    testRuntimeOnly("org.seleniumhq.selenium:selenium-chrome-driver:4.19.1")
-    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:4.19.1")
-    testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver:4.19.1")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver:$seleniumVersion")
 }
 
 application {
@@ -91,7 +107,7 @@ tasks.withType(Test) {
 }
 
 webdriverBinaries {
-    chromedriver "126.0.6478.126"
-    geckodriver "0.32.2"
-    edgedriver "110.0.1587.57"
+    chromedriver "$chromedriverVersion"
+    geckodriver "$geckodriverVersion"
+    edgedriver "$edgedriverVersion"
 }
