@@ -3,6 +3,7 @@ buildscript {
         gradlePluginPortal()
         mavenCentral()
         maven { url "https://repo.grails.org/grails/core/" }
+        maven { url "https://repository.apache.org/content/repositories/snapshots"}
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
@@ -28,18 +29,8 @@ group = "website"
 repositories {
     mavenCentral()
     maven { url "https://repo.grails.org/grails/core/" }
+    maven { url "https://repository.apache.org/content/repositories/snapshots"}
 }
-
-allprojects {
-    configurations.configureEach {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'org.seleniumhq.selenium') {
-                details.useVersion(seleniumVersion)
-            }
-        }
-    }
-}
-
 
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -61,35 +52,30 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-logging")
     implementation("org.springframework.boot:spring-boot-starter-tomcat")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.sitemesh:grails-plugin-sitemesh3:$grailsSitemeshPluginVersion")
-    implementation("org.grails.plugins:database-migration:$databaseMigrationVersion")
+    implementation("org.grails.plugins:database-migration")
 
     console("org.grails:grails-console")
-    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:$assetPipelineVersion")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.apache.tomcat:tomcat-jdbc")
-    runtimeOnly("org.fusesource.jansi:jansi:$jansiVersion")
+    runtimeOnly("org.fusesource.jansi:jansi")
     profile ("org.grails.profiles:web")
     testImplementation("org.grails:grails-gorm-testing-support")
     testImplementation("org.grails:grails-web-testing-support")
-    testImplementation("org.grails.plugins:geb")
-    implementation "org.gebish:geb-spock:$gebVersion"
-    testImplementation("org.seleniumhq.selenium:selenium-api:$seleniumVersion")
-    testImplementation("org.seleniumhq.selenium:selenium-remote-driver:$seleniumVersion")
-    testImplementation("org.seleniumhq.selenium:selenium-support:$seleniumVersion")
+    integrationTestImplementation testFixtures("org.grails.plugins:geb")
+    testImplementation("org.seleniumhq.selenium:selenium-api")
+    testImplementation("org.seleniumhq.selenium:selenium-remote-driver")
+    testImplementation("org.seleniumhq.selenium:selenium-support")
     testImplementation("org.spockframework:spock-core")
-    testRuntimeOnly("org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion")
-    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion")
-    testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver:$seleniumVersion")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-safari-driver")
 }
 
 application {
     mainClass.set("website.Application")
 }
 
-compileJava {
-    options.release = 17
-}
+compileJava.options.release = 17
 
 tasks.withType(Test) {
     useJUnitPlatform()
